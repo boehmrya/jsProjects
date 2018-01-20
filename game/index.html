@@ -9,22 +9,55 @@
 	<script type="text/javascript">
 		var canvas = null;
 		var context = null;
+		var frameRate = 1000/30;
+		var frame = 0;
+		var assets = [
+			'robowalk/robowalk00.png',
+			'robowalk/robowalk01.png',
+			'robowalk/robowalk02.png',
+			'robowalk/robowalk03.png',
+			'robowalk/robowalk04.png',
+			'robowalk/robowalk05.png',
+			'robowalk/robowalk06.png',
+			'robowalk/robowalk07.png',
+			'robowalk/robowalk08.png',
+			'robowalk/robowalk09.png',
+			'robowalk/robowalk10.png',		
+			'robowalk/robowalk11.png',		
+			'robowalk/robowalk12.png',		
+			'robowalk/robowalk13.png',		
+			'robowalk/robowalk14.png',		
+			'robowalk/robowalk15.png',		
+			'robowalk/robowalk16.png',		
+			'robowalk/robowalk17.png',		
+			'robowalk/robowalk18.png'
+		];
 
-		setup = function() {
+		var frames = [];
+
+		var onImageLoad = function() {
+			console.log("IMAGE!!");
+			context.drawImage(img, 192, 192);
+		};
+
+		var setup = function() {
 			canvas = document.getElementById("my_canvas");
 			context = canvas.getContext('2d');
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 
-			img = new Image();
-			img.onload = onImageLoad;
-			img.src = "ralphyrobot.png";
-
+			for (var i = 0; i < assets.length; i++) {
+				frames.push(new Image());
+				frames[i].src = assets[i];
+				frames[i].onload = onImageLoad;
+			}
+			setInterval(animate, frameRate);
 		};
 
-		onImageLoad = function() {
-			console.log("IMAGE!!");
-			context.drawImage(img, 192, 192);
+		var animate = function() {
+			context.clearRect(0, 0, canvas.width, canvas.height);
+			context.drawImage(frames[frame], 192, 192);
+			frame = (frame + 1) % frames.length;
 		};
 
 		setup();
